@@ -1,0 +1,168 @@
+<!DOCTYPE html><html><head><title></title><meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" /><style type='text/css'>
+body {
+  font-family:'Helvetica';
+  letter-spacing:-5px;
+  background:#ccc;
+  background-size:100%;
+  color:#000;
+  margin:0;
+  padding:0;
+  font-weight:bold;
+}
+
+h1, h2, h3, p {
+  margin:0;
+}
+
+em, a {
+  font-style:normal;
+  color:#399639;
+}
+strong {
+  font-style:normal;
+  color: #5F3A7A;
+}
+
+a {
+  background:#34d0e7;
+  color:#000;
+  text-decoration:none;
+}
+
+img {
+  width:100%;
+}
+
+div {
+  cursor:pointer;
+  cursor:hand;
+  position:absolute;
+  top:0px;
+  left:0px;
+  padding:75px;
+  line-height:97%;
+}
+
+div.center {
+  text-align:center;
+}
+
+div.imageText {
+  text-shadow:0px 0px 5px rgba(0,0,0,0.2);
+}
+
+notes {
+    display:none;
+}
+/* normally not good, but ok in context of full screen directional navigation */
+:focus {
+    outline: 0;
+}
+
+</style><script type='text/javascript'>
+window.onload = function() {
+    var s = document.getElementsByTagName('div'), ti, i;
+    for (i = 0; i < s.length; i++) s[i].setAttribute('tabindex', 0);
+    if (!s) return;
+    var big = { current: 0, forward: fwd, reverse: rev, go: go, length: s.length };
+    window.big = big;
+    function resize() {
+        var w = window.innerWidth, h = window.innerHeight, e = s[big.current];
+        e.style.fontSize = h + 'px';
+        for (i = h - 2; i > 0 && (e.offsetWidth > w || e.offsetHeight > h); i -= 2) {
+            e.style.fontSize = i + 'px';
+        }
+        e.style.marginTop = (h - e.offsetHeight) / 2 + 'px';
+    }
+    function go(n) {
+        big.current = n;
+        var e = s[n], t = parseInt(e.getAttribute('data-timeToNext') || 0, 10),
+            notes = e.getElementsByTagName('notes');
+        document.body.className = e.getAttribute('data-bodyclass') || '';
+        for (i = 0; i < s.length; i++) s[i].style.display = 'none';
+        e.style.display = 'inline';
+        e.focus();
+        for (i = 0; typeof console === 'object' && i < notes.length; i++) console.log('%c%s: %s', 'padding:5px;font-family:serif;font-size:18px;line-height:150%;', n, notes[i].innerHTML.trim());
+        if (e.firstChild && e.firstChild.nodeName === 'IMG') {
+            document.body.style.backgroundImage = 'url("' + e.firstChild.src + '")';
+            e.firstChild.style.display = 'none';
+            if ('classList' in e) e.classList.add('imageText');
+        } else {
+            document.body.style.backgroundImage = '';
+            document.body.style.backgroundColor = e.style.backgroundColor;
+        }
+        if (ti !== undefined) window.clearInterval(ti);
+        if (t > 0) ti = window.setTimeout(fwd, t * 1000);
+        resize();
+        if (window.location.hash !== n) window.location.hash = n;
+        document.title = e.textContent || e.innerText;
+    }
+    document.onclick = function() { go(++big.current % s.length); };
+    function fwd() { go(Math.min(s.length - 1, ++big.current)); }
+    function rev() { go(Math.max(0, --big.current)); }
+    document.onkeydown = function(e) {
+        if (e.which === 39 || e.which === 34 || e.which === 40) fwd();
+        if (e.which === 37 || e.which === 33 || e.which === 38) rev();
+    };
+    document.ontouchstart = function(e) {
+        var x0 = e.changedTouches[0].pageX;
+        document.ontouchend = function(e2) {
+            var x1 = e2.changedTouches[0].pageX;
+            if (x1 - x0 < 0) fwd();
+            if (x1 - x0 > 0) rev();
+        };
+    };
+    function parse_hash() {
+        return Math.max(Math.min(s.length - 1,
+            parseInt(window.location.hash.substring(1), 10)), 0);
+    }
+    if (window.location.hash) big.current = parse_hash() || big.current;
+    window.onhashchange = function() {
+        i = parse_hash();
+        if (i !== big.current) go(i);
+    };
+    window.onresize = resize;
+    go(big.current);
+};
+</script></head><body>
+	<div>Welcome to <em>Maptime GBG!</em>
+	</div>
+	<div>what is Maptime? <strong>what are we doing here?</strong></div>
+	<div>So, let's talk about <em>web maps!	</em></div>
+	<div>I will talk about the <em>basic principles</em>, some <em>history</em> and <em>common concepts</em></div>
+<div>Hmm, what is a web map?</div>
+<div>A web map lets you <strong>navigate a map with a single continuous system</strong>. It is an interactive map (this can be discussed).</div>
+<div>Web mapping usually involves a web browser capable of client server interaction.</div>
+<div>Like...</div>
+<div><img src="/images/googlemaps.png" alt="" /><a href="https://www.google.se/maps/">maps.google.com</a></div>
+<div><img src="/images/osm.png" alt="" /><a href="https://www.openstreetmap.org">OpenStreetMap</a></div>
+<div><strong>Before</strong> we had web maps we had <strong>analog</strong> maps like paper maps and <strong>atlases.</strong></div>
+<div>How did we get here?</div>
+<div>The first maps on the web were sloooow</div>
+<div>Could require a full page refresh to scroll and zoom. Always aligned to tile boundaries.</div>
+<div>In 2005 we got <em>Google Maps</em>. The tile revolution!</div>
+<div>They made it faster and it was easy for people to integrate google map services to their own web sites. This made it very popular!</div>
+<div>So, tile revolution?</div>
+<div>Tiles = one large image from many small images (tiles)!</div>
+<div>We store multiple images of the same area at different <em>zoom levels</em>. When displaying map, only the images of the current area are needed. All tiles are the same size, usually 256x256px</div>
+<div>This means, web maps using tiles <em>only loads the tiles that are on your screen</em>. A smart map will also load those along the top, bottom, left and right = <em>slippy map</em></div>
+<div>Zoom levels all have its own set of tiles starting with <em>one tile at zoom level 0</em> and which increase exponentially for each zoom level.</div>
+<div><img src="/images/bing.jpg" alt="" height="42" width="42"/></div>
+<div>Tiles are usually rendered in advanced and stored in a cache</div>
+<div>Basically map tiles are images on the web</div>
+<div>For example: <a href="http://tile.openstreetmap.org/13/4368/2479.png">http://tile.openstreetmap.org/13/4368/2479.png</a></div>
+<div>In a web map these tiles are the <strong>base layer</strong> (lets say they are <strong>raster</strong> tiles for now).</div>
+<div>We can put layers (content layer/<strong>feature layer</strong>) on the base layer, like markers, they are often <strong>vector layers</strong>, these are intractable!</div>
+<div><img src="/images/lkmap.png" alt="" height="42" width="42"/></div>
+<div>I have simplified the story a little… Tiles doesn’t have to be raster tiles, they can be vector tiles…..</div>
+<div>Vector tiles are similar to raster tiles but instead of raster images the data returned is a vector representation of the features in the tile.</div>
+<div>If you want to you can create your own tiles, or you can use these <a href="https://www.mapbox.com/">MapBox</a>, <a href="http://maps.stamen.com/#toner/12/37.7707/-122.3781">Stamen</a>, <a href="http://wiki.openstreetmap.org/wiki/Tiles">OpenStreetMap</a> </div>
+<div>For vector layers you can check out <a href="http://geojson.org/">GeoJSON</a>.</div>
+<div><img src="/images/anatomy-of-a-web-map.png" alt="" height="42" width="42"/></div>
+<div>To show the map in the browser commonly a Javascript library is used like <a href ="http://leafletjs.com/">leaflet</a> or <a href ="http://openlayers.org/">openlayers</a></div>
+<div>The javascript library grabs the tiles, adds content layers and handles interaction.</div>
+<div>A simple web map can be seen <a href="http://localhost:8000/leaflet.html">here</a> 
+</div>
+<div>I could go on forever with this, but i'll stop here!</div>
+<div><strong>Thank you!</strong></div>
+</body>
