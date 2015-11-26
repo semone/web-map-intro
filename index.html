@@ -147,22 +147,23 @@ window.onload = function() {
 <div>We store multiple images of the same area at different <em>zoom levels</em>. When displaying map, only the images of the current area are needed. All tiles are the same size, usually 256x256px</div>
 <div>This means, web maps using tiles <em>only loads the tiles that are on your screen</em>. A smart map will also load those along the top, bottom, left and right = <em>slippy map</em></div>
 <div>Zoom levels all have its own set of tiles starting with <em>one tile at zoom level 0</em> and which increase exponentially for each zoom level.</div>
-<div><img src="/images/bing.jpg" alt="" height="42" width="42"/></div>
+<div><img src="images/bing.jpg" alt="" height="42" width="42"/></div>
 <div>Tiles are usually rendered in advanced and stored in a cache</div>
 <div>Basically map tiles are images on the web</div>
 <div>For example: <a href="http://tile.openstreetmap.org/13/4368/2479.png">http://tile.openstreetmap.org/13/4368/2479.png</a></div>
 <div>In a web map these tiles are the <strong>base layer</strong> (lets say they are <strong>raster</strong> tiles for now).</div>
 <div>We can put layers (content layer/<strong>feature layer</strong>) on the base layer, like markers, they are often <strong>vector layers</strong>, these are intractable!</div>
-<div><img src="/images/lkmap.png" alt="" height="42" width="42"/></div>
+<div><img src="images/lkmap.png" alt="" height="42" width="42"/></div>
 <div>I have simplified the story a little… Tiles doesn’t have to be raster tiles, they can be vector tiles…..</div>
 <div>Vector tiles are similar to raster tiles but instead of raster images the data returned is a vector representation of the features in the tile.</div>
 <div>If you want to you can create your own tiles, or you can use these <a href="https://www.mapbox.com/">MapBox</a>, <a href="http://maps.stamen.com/#toner/12/37.7707/-122.3781">Stamen</a>, <a href="http://wiki.openstreetmap.org/wiki/Tiles">OpenStreetMap</a> </div>
 <div>For vector layers you can check out <a href="http://geojson.org/">GeoJSON</a>.</div>
-<div><img src="/images/anatomy-of-a-web-map.png" alt="" height="42" width="42"/></div>
+<div><img src="images/anatomy-of-a-web-map.png" alt="" height="42" width="42"/></div>
 <div>To show the map in the browser commonly a Javascript library is used like <a href ="http://leafletjs.com/">leaflet</a> or <a href ="http://openlayers.org/">openlayers</a></div>
 <div>The javascript library grabs the tiles, adds content layers and handles interaction.</div>
-<div>A simple web map can be seen <a href="http://localhost:8000/leaflet.html">here</a> 
+<div>A simple web map can be seen <a href="http://semone.github.io/web-map-into/leaflet.html">here</a> 
 </div>
 <div>I could go on forever with this, but i'll stop here!</div>
 <div><strong>Thank you!</strong></div>
 </body>
+
